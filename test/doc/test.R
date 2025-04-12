@@ -16,8 +16,8 @@ table <- read.table(
   )
 )
 ta <- aggregate(
-  x = table$doc, 
-  by = list(table$siteID, table$dateString), 
+  x = table$doc,
+  by = list(table$siteID, table$dateString),
   FUN = mean
 )
 names(ta) <- c("siteID", "dateString", "doc")
@@ -58,22 +58,22 @@ proj <- Project3D$new(
   scale = TRUE
 )
 
-proj$window.xy(boxes = TRUE, box.x = xmin, box.y = ymax, box.z = zmin)
+proj$window.xy(boxes = TRUE, box.xvals = xmin, box.yvals = ymax, box.zvals = zmin)
 
 # x axis ####
 proj$ticks.x(
   at = x_at,
-  yvals = c(ymin, ymin - 0.015 * (ymax - ymin)),
-  zvals = c(zmin, zmin - 0.015 * (zmax - zmin))
+  ylims = c(ymin, ymin - 0.015 * (ymax - ymin)),
+  zlims = c(zmin, zmin - 0.015 * (zmax - zmin))
 )
-proj$text.x(
-  at <- x_at,
+proj$text(
+  xvals = x_at,
   yvals = ymin - 0.04 * (ymax - ymin),
   zvals = zmin - 0.04 * (zmax - zmin),
   labels = siteIDs[14 - x_at]
 )
-proj$text.x(
-  at <- 0.5 * (xmax - xmin),
+proj$text(
+  xvals = 0.5 * (xmax - xmin),
   yvals = ymin - 0.08 * (ymax - ymin),
   zvals = zmin - 0.08 * (zmax - zmin),
   labels = "Site",
@@ -83,17 +83,18 @@ proj$text.x(
 # y axis ####
 proj$ticks.y(
   at = y_at,
-  xvals = c(xmax, xmax + 0.02 * (xmax - xmin)),
-  zvals = c(zmin, zmin - 0.02 * (zmax - zmin))
+  xlims = c(xmax, xmax + 0.02 * (xmax - xmin)),
+  zlims = c(zmin, zmin - 0.02 * (zmax - zmin))
 )
-proj$text.y(
-  at = y_at,
+proj$text(
   xvals = xmax + 0.04 * (xmax - xmin),
-  zvals = zmin - 0.04 * (zmax - zmin)
+  yvals = y_at,
+  zvals = zmin - 0.04 * (zmax - zmin),
+  labels = y_at
 )
-proj$text.y(
-  at = 0.5 * (ymax - ymin),
+proj$text(
   xvals = xmax + 0.09 * (xmax - xmin),
+  yvals = 0.5 * (ymax - ymin),
   zvals = zmin - 0.09 * (zmax - zmin),
   labels = "Day of water year",
   srt = 8
@@ -102,18 +103,19 @@ proj$text.y(
 # z axis ####
 proj$ticks.z(
   at = z_at,
-  xvals = c(xmax, xmax + 0.015 * (xmax - xmin)),
-  yvals = c(ymax, ymax + 0.015 * (ymax - ymin))
+  xlims = c(xmax, xmax + 0.015 * (xmax - xmin)),
+  ylims = c(ymax, ymax + 0.015 * (ymax - ymin))
 )
-proj$text.z(
-  at = z_at,
+proj$text(
   xvals = xmax + 0.03 * (xmax - xmin),
-  yvals = ymax + 0.03 * (ymax - ymin)
+  yvals = ymax + 0.03 * (ymax - ymin),
+  zvals = z_at,
+  labels = z_at
 )
-proj$text.z(
-  at = 0.5 * (zmax - zmin),
+proj$text(
   xvals = xmax + 0.06 * (xmax - xmin),
   yvals = ymax + 0.06 * (ymax - ymin),
+  zvals = 0.5 * (zmax - zmin),
   labels = bquote("[DOC] (mg C" ~ L^{-1} * ")"),
   srt = 87
 )
@@ -133,13 +135,13 @@ for (index in length(siteIDs):1) {
     y = c(doy),
     z = c(subset$doc)
   )
-  
+
   segments(
-    x0 = coords$x[1:(length(coords$x) - 1)], 
-    y0 = coords$y[1:(length(coords$y) - 1)], 
-    x1 = coords$x[2:(length(coords$x))], 
-    y1 = coords$y[2:(length(coords$y))], 
-    lwd = 2, 
+    x0 = coords$x[1:(length(coords$x) - 1)],
+    y0 = coords$y[1:(length(coords$y) - 1)],
+    x1 = coords$x[2:(length(coords$x))],
+    y1 = coords$y[2:(length(coords$y))],
+    lwd = 2,
     col = hcl(360 * mean_doy / 365, c = 60, l = 60)
   )
 
